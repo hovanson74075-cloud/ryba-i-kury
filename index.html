@@ -89,4 +89,87 @@
   <!-- Добавлен обработчик отправки формы: формирует текст заказа и открывает WhatsApp -->
   <script>
     (function () {
-      const PHONE = '79279694443'; // номер без '+'
+      // Укажите номер получателя (можно с + или без)
+      const RAW_PHONE = '+7 927 969 44 43';
+
+      function normalizePhone(raw) {
+        // Оставляем только цифры
+        let digits = (raw || '').toString().replace(/\D/g, '');
+        // Если россиянин ввёл 8xxx — заменить на 7xxx
+        if (digits.length === 11 && digits.startsWith('8')) digits = '7' + digits.slice(1);
+        return digits;
+      }
+
+      const PHONE = normalizePhone(RAW_PHONE); // -> "79279694443"
+      const form = document.getElementById('checkoutForm');
+      if (!form) return;
+
+      function collectItemsText() {
+        const itemsContainer = document.getElementById('cartItems');
+        if (!itemsContainer) return '—';
+        const rows = itemsContainer.querySelectorAll('[data-name], .cart-row, .cart-item, li, div');
+        const lines = [];
+        rows.forEach(r => {
+          const n = (r.dataset.name) || (r.querySelector?.('.item-name')?.textContent) || (r.querySelector?.('strong')?.textContent) || r.textContent;
+          if (!n) return;
+          const q = r.dataset.qty || r.querySelector?.('.item-qty')?.textContent || '';
+          const p = r.dataset.price || r.querySelector?.('.item-price')?.textContent || '';
+          const parts = [n.toString().trim()];
+          if (q) parts.push('x' + q.toString().trim());
+          if (p) parts.push(p.toString().trim());
+          lines.push(parts.join(' '));
+        });
+        return lines.length ? lines.join('\n') : '—';
+      }
+
+      form.addEventListener('submit', function (e) {
+        e.preventDefault();
+
+        const name = (form.name?.value || '').trim();
+        const phone = (form.phone?.value || '').trim();
+        const address = (form.address?.value || '').trim();
+        const note = (form.note?.value || '').trim();
+
+        const itemsText = collectItemsText();
+        const subtotal = (document.getElementById('subtotal')?.textContent || '').trim();
+        const delivery = (document.getElementById('delivery')?.textContent || '').trim();
+        const grand = (document.getElementById('grand')?.textContent || '').trim();
+
+        const message =
+`Новый заказ
+Имя: ${name || '-'}
+Телефон: ${phone || '-'}
+Адрес: ${address || '-'}
+
+Товары:
+${itemsText}
+
+Сумма: ${subtotal || '-'} ₽
+Доставка: ${delivery || '-'} ₽
+Итого: ${grand || '-'} ₽
+
+Примечание: ${note || '-'}`;
+
+        const encoded = encodeURIComponent(message);
+
+        // Выбираем URL: wa.me работает и на десктопе и на мобильных, но для десктопа иногда удобнее web.whatsapp.com/send
+        const isMobile = /Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
+        const base = isMobile ? 'https://wa.me/' : 'https://web.whatsapp.com/send?phone=';
+        const url = isMobile
+          ? `https://wa.me/${PHONE}?text=${encoded}`
+          : `https://web.whatsapp.com/send?phone=${PHONE}&text=${encoded}`;
+
+        // Открыть новое окно/вкладку (пользователь подтвердит отправку в своём WhatsApp)
+        window.open(url, '_blank');
+
+        // Закрыть диалог корзины, если используется <dialog>
+        const dialog = document.getElementById('cartDialog');
+        try { if (dialog && typeof dialog.close === 'function') dialog.close(); } catch (err) {}
+
+        // Если хотите — можно показать пользователю ссылку или уведомление об успешном создании заявки
+        // alert('Откроется WhatsApp для подтверждения и отправки заказа.');
+      });
+    })();
+  </script>
+</body>
+</html>
