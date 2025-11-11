@@ -11,11 +11,20 @@
     <h1>Рыба и Куры</h1>
     <p class="subtitle">Свежая рыба и курица с доставкой на дом</p>
     <div class="toolbar">
-      <select id="categoryFilter">
+      <!-- Новые табы категорий (визуально разделяют контент) -->
+      <nav class="tabs" role="tablist" aria-label="Категории">
+        <button type="button" data-category="all" class="active">Все</button>
+        <button type="button" data-category="fish">Рыба</button>
+        <button type="button" data-category="chicken">Курица</button>
+      </nav>
+
+      <!-- Скрытый select оставляем для совместимости с app.js -->
+      <select id="categoryFilter" aria-hidden="true" style="display:none;">
         <option value="all">Все категории</option>
         <option value="fish">Рыба</option>
         <option value="chicken">Курица</option>
       </select>
+
       <input id="search" placeholder="Поиск по товарам..." />
       <button id="viewCartBtn">Корзина (<span id="cartCount">0</span>)</button>
     </div>
@@ -50,5 +59,31 @@
 
   <script src="settings.js"></script>
   <script src="app.js"></script>
+
+  <!-- Скрипт синхронизирует табы с существующим фильтром (не меняет логику app.js) -->
+  <script>
+    (function(){
+      const tabs = document.querySelectorAll('.tabs button');
+      const select = document.getElementById('categoryFilter');
+
+      function setActiveTab(category) {
+        tabs.forEach(btn => btn.classList.toggle('active', btn.dataset.category === category));
+      }
+
+      tabs.forEach(btn => {
+        btn.addEventListener('click', () => {
+          const cat = btn.dataset.category;
+          select.value = cat;
+          select.dispatchEvent(new Event('change', { bubbles: true }));
+          setActiveTab(cat);
+        });
+      });
+
+      // Установить начальный активный таб по значению select (если app.js меняет select на старте)
+      document.addEventListener('DOMContentLoaded', () => {
+        setActiveTab(select.value || 'all');
+      });
+    })();
+  </script>
 </body>
 </html>
