@@ -171,5 +171,14 @@ ${itemsText}
       });
     })();
   </script>
-</body>
-</html>
+
+  <script>
+    (function(){
+      const FORMSPREE = 'https://formspree.io/f/YOUR_FORM_ID';
+      const form = document.getElementById('checkoutForm');
+      if (!form) return;
+      form.addEventListener('submit', async function(e){
+        e.preventDefault();
+        const data = new FormData(form);
+        // добавим поля корзины
+        data.append('items', document.getElementById('cartItems')?.textContent || ''
