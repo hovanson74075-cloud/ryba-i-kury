@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Рыба и Куры — доставка на дом</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <header class="container">
+    <h1>Рыба и Куры</h1>
+    <p class="subtitle">Свежая рыба и курица с доставкой на дом</p>
+    <div class="toolbar">
+      <select id="categoryFilter">
+        <option value="all">Все категории</option>
+        <option value="fish">Рыба</option>
+        <option value="chicken">Курица</option>
+      </select>
+      <input id="search" placeholder="Поиск по товарам..." />
+      <button id="viewCartBtn">Корзина (<span id="cartCount">0</span>)</button>
+      <a href="admin-lite.html" class="muted-link">Админ-lite →</a>
+    </div>
+  </header>
+
+  <main class="container">
+    <section id="grid" class="grid"></section>
+  </main>
+
+  <dialog id="cartDialog">
+    <h3>Ваш заказ (через WhatsApp)</h3>
+    <div id="cartItems"></div>
+    <div class="totals">
+      <div>Сумма: <strong id="subtotal">0</strong> ₽</div>
+      <div>Доставка: <strong id="delivery">0</strong> ₽</div>
+      <div class="grand">Итого: <strong id="grand">0</strong> ₽</div>
+    </div>
+    <form id="checkoutForm" class="checkout">
+      <input name="name" placeholder="Имя" required />
+      <input name="phone" placeholder="Телефон" required />
+      <input name="address" placeholder="Адрес доставки" required />
+      <textarea name="note" placeholder="Комментарий к заказу"></textarea>
+      <button type="submit">Оформить в WhatsApp</button>
+      <button type="button" id="closeCart">Закрыть</button>
+    </form>
+    <p class="muted small">Статический режим GitHub Pages: заявка откроется в WhatsApp с уже подставленным текстом.</p>
+  </dialog>
+
+  <footer class="container muted">
+    <small>© 2025 Рыба и Куры. Демонстрационный сайт.</small>
+  </footer>
+
+  <script src="settings.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>

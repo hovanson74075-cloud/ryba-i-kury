@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Admin-Lite — Рыба и Куры</title>
+  <link rel="stylesheet" href="styles.css" />
+  <style>
+    .panel { max-width: 1100px; margin: 0 auto; padding: 20px; }
+    .tools { display:flex; gap:10px; align-items:center; margin: 10px 0; }
+    .table { width: 100%; border-collapse: collapse; margin-top: 10px;}
+    .table th, .table td { border: 1px solid var(--border); padding: 8px; font-size: 14px; }
+    .table th { background:#0f1522; text-align:left; }
+    .inline { width: 100%; padding: 8px; border:1px solid var(--border); background:#0f1322; color:var(--text); border-radius: 6px; }
+    .danger { background:#ff5656 !important; color:#111; border:none; padding:8px 10px; border-radius:8px; }
+    .primary { background:var(--accent); color:#111; border:none; padding:8px 10px; border-radius:8px; font-weight:800; }
+    .muted { color: var(--muted); font-size:13px; }
+  </style>
+</head>
+<body>
+  <div class="panel">
+    <h1>Admin-Lite — Рыба и Куры</h1>
+    <p class="muted">GitHub Pages режим: правьте таблицу → «Скачать products.json» → замените файл в репозитории.</p>
+    <div class="tools">
+      <input type="file" id="importFile" accept="application/json">
+      <button class="primary" id="downloadBtn">Скачать products.json</button>
+      <a href="index.html" class="muted-link">← К сайту</a>
+    </div>
+    <table class="table" id="tbl">
+      <thead>
+        <tr><th>ID</th><th>Название</th><th>Категория</th><th>Ед.</th><th>Цена ₽</th><th>Картинка (URL)</th><th>Действия</th></tr>
+      </thead>
+      <tbody></tbody>
+    </table>
+    <h3>Добавить товар</h3>
+    <div class="tools">
+      <input id="new_id" class="inline" placeholder="ID (например, FISH-TROUT-1KG)" />
+      <input id="new_name" class="inline" placeholder="Название" />
+      <input id="new_category" class="inline" placeholder="Категория: fish | chicken" />
+      <input id="new_unit" class="inline" placeholder="Единица: кг | шт" />
+      <input id="new_price" class="inline" placeholder="Цена ₽ (число)" type="number" />
+      <input id="new_img" class="inline" placeholder="URL картинки (необязательно)" />
+      <button class="primary" id="addBtn">Добавить</button>
+    </div>
+  </div>
+  <script src="admin-lite.js"></script>
+</body>
+</html>

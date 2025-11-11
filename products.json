@@ -1,0 +1,42 @@
+[
+  {
+    "id": "FISH-SALMON-BELLY-200",
+    "name": "Сёмга брюшки 200 г",
+    "category": "fish",
+    "unit": "шт",
+    "price": 100,
+    "img": ""
+  },
+  {
+    "id": "FISH-HERRING-FILLET-200",
+    "name": "Сельдь филе 200 г",
+    "category": "fish",
+    "unit": "шт",
+    "price": 60,
+    "img": ""
+  },
+  {
+    "id": "FISH-SMOKED-BUTTERFISH-1KG",
+    "name": "Масляная рыба х/к 1 кг",
+    "category": "fish",
+    "unit": "кг",
+    "price": 800,
+    "img": ""
+  },
+  {
+    "id": "CHICKEN-BREAST-1KG",
+    "name": "Куриная грудка 1 кг",
+    "category": "chicken",
+    "unit": "кг",
+    "price": 500,
+    "img": ""
+  },
+  {
+    "id": "CHICKEN-THIGH-1KG",
+    "name": "Куриные бёдра 1 кг",
+    "category": "chicken",
+    "unit": "кг",
+    "price": 380,
+    "img": ""
+  }
+]
